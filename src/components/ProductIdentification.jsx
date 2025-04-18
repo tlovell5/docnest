@@ -8,7 +8,7 @@ const ProductIdentification = () => {
   const [isOpen, setIsOpen] = useState(true);
   const [imagePreview, setImagePreview] = useState(null);
   const [unitsPerCase, setLocalUnitsPerCase] = useState(0);
-  const [casesPerPallet, setCasesPerPallet] = useState(0);
+  const [casesPerPallet, setLocalCasesPerPallet] = useState(0);
   const [unitClaimWeight, setLocalUnitClaimWeight] = useState('');
   const [uom, setLocalUom] = useState('lbs');
   const [wipIdValue, setWipIdValue] = useState('');
@@ -22,6 +22,7 @@ const ProductIdentification = () => {
   const [bomId, setBomId] = useState('');
   const [specRevision, setSpecRevision] = useState('');
   const [intendedUse, setIntendedUse] = useState('');
+  const [caseUpcValue, setCaseUpcValue] = useState('');
 
   const { 
     setWipId, 
@@ -32,7 +33,9 @@ const ProductIdentification = () => {
     setShelfLife,
     setUnitClaimWeight,
     setUom,
-    setWipDescription
+    setWipDescription,
+    setCaseUpc,
+    setCasesPerPallet
   } = useContext(ProductContext);
 
   useEffect(() => {
@@ -89,6 +92,14 @@ const ProductIdentification = () => {
     }
     setWipWeight(weightInLbs.toFixed(2));
   }, [unitClaimWeight, uom, setWipWeight]);
+
+  useEffect(() => {
+    setCaseUpc(caseUpcValue);
+  }, [caseUpcValue, setCaseUpc]);
+
+  useEffect(() => {
+    setCasesPerPallet(Number(casesPerPallet));
+  }, [casesPerPallet, setCasesPerPallet]);
 
   const onDrop = useCallback((acceptedFiles) => {
     const file = acceptedFiles[0];
@@ -246,7 +257,7 @@ const ProductIdentification = () => {
                   step="1"
                   placeholder="e.g. 50"
                   value={casesPerPallet}
-                  onChange={(e) => setCasesPerPallet(Number(e.target.value))}
+                  onChange={(e) => setLocalCasesPerPallet(Number(e.target.value))}
                 />
               </div>
 
@@ -343,7 +354,12 @@ const ProductIdentification = () => {
           <div className={styles.subgrid}>
             <div className={styles.field}>
               <label>Case UPC</label>
-              <input type="text" placeholder="Case UPC" />
+              <input
+                type="text"
+                placeholder="Case UPC"
+                value={caseUpcValue}
+                onChange={(e) => setCaseUpcValue(e.target.value)}
+              />
             </div>
             <div className={styles.field}>
               <label>Pallet UPC</label>

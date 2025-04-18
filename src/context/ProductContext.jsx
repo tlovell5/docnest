@@ -7,14 +7,18 @@ export const ProductProvider = ({ children }) => {
   const [wipWeight, setWipWeight] = useState('');
   const [wipDescription, setWipDescription] = useState('');
   const [unitsPerCase, setUnitsPerCase] = useState(0);
+  const [casesPerPallet, setCasesPerPallet] = useState(0);
+  const [caseUpc, setCaseUpc] = useState('');
   const [upc, setUpc] = useState('');
   const [lotCodeFormat, setLotCodeFormat] = useState('');
   const [shelfLife, setShelfLife] = useState('');
   const [unitClaimWeight, setUnitClaimWeight] = useState('');
+  const [unitNetWeight, setUnitNetWeight] = useState(0);
   const [uom, setUom] = useState('lbs');
   const [ingredientRows, setIngredientRows] = useState([]);
   const [inclusionRows, setInclusionRows] = useState([]);
   const [packagingRows, setPackagingRows] = useState([]);
+  const [caseRows, setCaseRows] = useState([]);
 
   return (
     <ProductContext.Provider value={{ 
@@ -26,6 +30,10 @@ export const ProductProvider = ({ children }) => {
       setWipDescription,
       unitsPerCase,
       setUnitsPerCase,
+      casesPerPallet,
+      setCasesPerPallet,
+      caseUpc,
+      setCaseUpc,
       upc,
       setUpc,
       lotCodeFormat,
@@ -34,6 +42,8 @@ export const ProductProvider = ({ children }) => {
       setShelfLife,
       unitClaimWeight,
       setUnitClaimWeight,
+      unitNetWeight,
+      setUnitNetWeight,
       uom,
       setUom,
       ingredientRows,
@@ -41,7 +51,9 @@ export const ProductProvider = ({ children }) => {
       inclusionRows,
       setInclusionRows,
       packagingRows,
-      setPackagingRows
+      setPackagingRows,
+      caseRows,
+      setCaseRows
     }}>
       {children}
     </ProductContext.Provider>

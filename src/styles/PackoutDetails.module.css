@@ -1,0 +1,250 @@
+/* src/styles/PackoutDetails.module.css */
+
+.container {
+  background: #fff;
+  border: 1px solid #e3e3e3;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-top: 2rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.container:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+.toggleHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.header {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+  color: #333;
+}
+
+.arrow {
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.arrow.open {
+  transform: rotate(90deg);
+}
+
+.detailsContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.detailsSection {
+  background-color: #fafafa;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.sectionTitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #444;
+  margin: 0 0 1rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.detailsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+}
+
+.row label {
+  font-weight: 500;
+  color: #555;
+}
+
+.fullWidthRow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+}
+
+.fullWidthRow label {
+  font-weight: 500;
+  color: #555;
+}
+
+.tiHiInputs {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tiHiInput {
+  width: 60px;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.selectInput {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  min-width: 100px;
+}
+
+.configTextarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+/* Materials Table Styles */
+.materialsTable {
+  border: 1px solid #eee;
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: #fff;
+}
+
+.materialHeader {
+  display: grid;
+  grid-template-columns: 25% 55% 20%;
+  background-color: #f5f5f5;
+  padding: 0.75rem;
+  font-weight: 600;
+  color: #444;
+  border-bottom: 1px solid #eee;
+}
+
+.materialItemCompact {
+  display: grid;
+  grid-template-columns: 25% 55% 20%;
+  padding: 0.75rem;
+  border-bottom: 1px solid #eee;
+}
+
+.materialItemCompact:last-child {
+  border-bottom: none;
+}
+
+.materialItemCompact:nth-child(odd) {
+  background-color: #fafafa;
+}
+
+.materialItemCompact:hover {
+  background-color: #f0f7ff;
+}
+
+.materialSku {
+  font-family: monospace;
+  color: #666;
+}
+
+.materialDescriptionCompact {
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.materialQtyCompact {
+  text-align: left;
+  color: #444;
+}
+
+.emptyMessage {
+  padding: 1.5rem;
+  text-align: center;
+  color: #888;
+  font-style: italic;
+}
+
+/* Image Upload Styles */
+.imagesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.imageUpload {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.imageUpload label {
+  font-weight: 500;
+  color: #444;
+}
+
+.dropzone {
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s ease;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.dropzone:hover {
+  border-color: #4a90e2;
+}
+
+.dropzone p {
+  color: #777;
+  margin: 0;
+}
+
+.uploadedImage {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .container {
+    padding: 1.25rem;
+  }
+  
+  .detailsContainer {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .imagesGrid {
+    grid-template-columns: 1fr;
+  }
+}
