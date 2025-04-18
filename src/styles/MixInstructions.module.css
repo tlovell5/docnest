@@ -1,0 +1,367 @@
+/* src/styles/MixInstructions.module.css */
+
+.container {
+  background: #fff;
+  border: 1px solid #e3e3e3;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-top: 2rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+.toggleHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.header {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.headerInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.totalTime {
+  font-size: 0.9rem;
+  color: #666;
+  background-color: #f5f5f5;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.arrow {
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.arrow.open {
+  transform: rotate(90deg);
+}
+
+.content {
+  margin-top: 1.5rem;
+}
+
+.tableContainer {
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+}
+
+.instructionsTable {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.95rem;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.instructionsTable th {
+  text-align: left;
+  padding: 0.75rem;
+  background-color: #f5f5f5;
+  font-weight: 600;
+  color: #444;
+  border-bottom: 1px solid #eee;
+}
+
+.instructionsTable th:first-child {
+  border-top-left-radius: 8px;
+}
+
+.instructionsTable th:last-child {
+  border-top-right-radius: 8px;
+}
+
+.instructionsTable td {
+  padding: 1rem 0.75rem;
+  border-bottom: 1px solid #eee;
+  vertical-align: top;
+}
+
+.instructionsTable tbody tr {
+  background-color: white;
+  transition: background-color 0.2s ease;
+}
+
+.instructionsTable tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+.instructionsTable tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.instructionsTable tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 8px;
+}
+
+.instructionsTable tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 8px;
+}
+
+.stepColumn {
+  width: 60px;
+}
+
+.instructionsColumn {
+  width: 35%;
+}
+
+.durationColumn {
+  width: 100px;
+}
+
+.tempColumn {
+  width: 100px;
+}
+
+.imageColumn {
+  width: auto;
+}
+
+.actionsColumn {
+  width: 80px;
+}
+
+.stepCell {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #4a90e2;
+  text-align: center;
+  padding: 0.5rem;
+}
+
+.stepNumber {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #4a90e2;
+  color: white;
+  font-weight: 600;
+  margin: 0 auto;
+  cursor: grab;
+  box-shadow: 0 2px 4px rgba(74, 144, 226, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stepNumber:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(74, 144, 226, 0.3);
+}
+
+tr.dragging .stepNumber {
+  background-color: #3a7bc8;
+  cursor: grabbing;
+  transform: scale(1.05);
+}
+
+.dragGhost {
+  background-color: #4a90e2;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: 600;
+  position: fixed;
+  top: -1000px;
+  left: -1000px;
+  z-index: 9999;
+  pointer-events: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.instructionsCell {
+  padding: 0.5rem;
+}
+
+.instructionsInput {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  resize: vertical;
+  font-family: inherit;
+  font-size: 0.95rem;
+  min-height: 80px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  background-color: #fafafa;
+}
+
+.instructionsInput:focus {
+  border-color: #4a90e2;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+  background-color: white;
+}
+
+.durationCell,
+.tempCell {
+  padding: 0.5rem;
+}
+
+.durationInput,
+.tempInput {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  background-color: #fafafa;
+}
+
+.durationInput:focus,
+.tempInput:focus {
+  border-color: #4a90e2;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+  background-color: white;
+}
+
+.imageCell {
+  padding: 0.5rem;
+}
+
+.dropzone {
+  border: 2px dashed #e0e0e0;
+  border-radius: 6px;
+  padding: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: #fafafa;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dropzone:hover {
+  border-color: #4a90e2;
+  background-color: #f5f9ff;
+}
+
+.dropzone.active {
+  border-color: #4a90e2;
+  background-color: #f0f7ff;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+.dropzoneContent {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.imagePreviewContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.imagePreview {
+  max-width: 100%;
+  max-height: 140px;
+  border-radius: 4px;
+  object-fit: contain;
+}
+
+.removeImageButton {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.8rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.actionsCell {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.removeButton,
+.duplicateButton {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.removeButton {
+  background-color: #f0f0f0;
+  color: #d00;
+}
+
+.duplicateButton {
+  background-color: #f0f7ff;
+  color: #4a90e2;
+}
+
+.removeButton:hover {
+  background-color: #ffebeb;
+  transform: translateY(-2px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.duplicateButton:hover {
+  background-color: #e0f0ff;
+  transform: translateY(-2px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.addButtonContainer {
+  margin-top: 1rem;
+}
+
+.addButton {
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+}
+
+.addButton:hover {
+  background-color: #3a7bc8;
+}

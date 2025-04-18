@@ -5,6 +5,7 @@ import PackagingClaims from "../components/PackagingClaims";
 import BillOfMaterials from "../components/BillOfMaterials";
 import ProductionDetails from "../components/ProductionDetails";
 import PackoutDetails from "../components/PackoutDetails";
+import MixInstructions from "../components/MixInstructions";
 
 const SpecSheetPage = () => {
   return (
@@ -15,6 +16,7 @@ const SpecSheetPage = () => {
       <BillOfMaterials />
       <ProductionDetails />
       <PackoutDetails />
+      <MixInstructions />
     </main>
   );
 };

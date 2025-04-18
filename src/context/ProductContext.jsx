@@ -19,6 +19,7 @@ export const ProductProvider = ({ children }) => {
   const [inclusionRows, setInclusionRows] = useState([]);
   const [packagingRows, setPackagingRows] = useState([]);
   const [caseRows, setCaseRows] = useState([]);
+  const [mixSteps, setMixSteps] = useState([]);
 
   return (
     <ProductContext.Provider value={{ 
@@ -53,7 +54,9 @@ export const ProductProvider = ({ children }) => {
       packagingRows,
       setPackagingRows,
       caseRows,
-      setCaseRows
+      setCaseRows,
+      mixSteps,
+      setMixSteps
     }}>
       {children}
     </ProductContext.Provider>
