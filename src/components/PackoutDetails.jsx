@@ -11,7 +11,10 @@ const PackoutDetails = () => {
     casesPerPallet,
     packagingRows,
     caseRows,
-    unitNetWeight
+    ingredientRows,
+    inclusionRows,
+    unitClaimWeight,
+    uom
   } = useContext(ProductContext);
 
   const [isOpen, setIsOpen] = useState(true);
@@ -20,7 +23,7 @@ const PackoutDetails = () => {
   const [fullPalletImage, setFullPalletImage] = useState(null);
   const [labelSize, setLabelSize] = useState('2x2');
   const [tiHi, setTiHi] = useState({ ti: '', hi: '' });
-  const [palletConfig, setPalletConfig] = useState('');
+  const [palletConfigSteps, setPalletConfigSteps] = useState([{ id: Date.now(), text: '' }]);
 
   // Format numbers with 2 decimal places
   const formatNumber = (num) => (parseFloat(num) || 0).toFixed(2);
@@ -30,25 +33,76 @@ const PackoutDetails = () => {
     return (parseFloat(grams) / 453.592) || 0;
   };
 
-  // Get case materials from BillOfMaterials
-  const caseMaterials = caseRows?.map(row => ({
-    sku: row.sku,
-    description: row.description || '',
-    qty: row.qty || '',
-    uom: 'ea'
-  })) || [];
+  // Convert weight to grams based on UOM
+  const convertToGrams = (weight, sourceUom) => {
+    const weightNum = parseFloat(weight) || 0;
+    switch (sourceUom) {
+      case 'g':
+        return weightNum;
+      case 'oz':
+        return weightNum * 28.3495;
+      case 'lbs':
+        return weightNum * 453.592;
+      case 'kg':
+        return weightNum * 1000;
+      default:
+        return weightNum;
+    }
+  };
+
+  // Calculate unit weight in grams (same as in ProductionDetails)
+  const calculateUnitWeightInGrams = () => {
+    // Calculate packaging weight
+    const packagingWeight = packagingRows?.reduce((sum, row) => sum + parseFloat(row.weight || 0), 0) || 0;
+    
+    // Calculate inclusion weight
+    const inclusionWeight = inclusionRows?.reduce((sum, row) => sum + parseFloat(row.weight || 0), 0) || 0;
+    
+    // Convert ingredient weight based on UOM
+    let ingredientWeightInGrams = 0;
+    if (unitClaimWeight) {
+      const weight = parseFloat(unitClaimWeight);
+      if (!isNaN(weight)) {
+        ingredientWeightInGrams = convertToGrams(weight, uom);
+      }
+    }
+    
+    // Total unit weight in grams
+    return packagingWeight + inclusionWeight + ingredientWeightInGrams;
+  };
 
   // Calculate total case weight in pounds
   const calculateTotalCaseWeight = () => {
-    // Calculate total weight of all units in the case
-    const unitsWeight = (parseFloat(unitsPerCase) || 0) * (parseFloat(unitNetWeight) || 0);
+    // 1. Get unit weight in grams (from ProductionDetails calculation)
+    const unitWeightInGrams = calculateUnitWeightInGrams();
     
-    // Calculate total weight of case materials
-    const caseWeight = caseRows?.reduce((sum, row) => sum + parseFloat(row.weight || 0), 0) || 0;
+    // 2. Multiply by units per case
+    const unitsWeightInGrams = unitWeightInGrams * (parseFloat(unitsPerCase) || 0);
     
-    // Convert total weight from grams to pounds
-    return gramsToPounds(unitsWeight + caseWeight);
+    // 3. Get case materials weight in grams
+    const caseMaterialsWeightInGrams = caseRows?.reduce((sum, row) => 
+      sum + parseFloat(row.weight || 0), 0) || 0;
+    
+    // 4. Add units weight and case materials weight, then convert to pounds
+    return gramsToPounds(unitsWeightInGrams + caseMaterialsWeightInGrams);
   };
+
+  // Get case materials from BillOfMaterials with formatted descriptions
+  const caseMaterials = caseRows?.map(row => {
+    // Format dimensions if available
+    let dimensionsText = '';
+    if (row.length && row.width && row.height) {
+      dimensionsText = ` (${row.length}" x ${row.width}" x ${row.height}")`;
+    }
+    
+    return {
+      sku: row.sku || '',
+      // Combine description and dimensions
+      description: `${row.description || ''}${dimensionsText}`,
+      qty: row.qty || '',
+      uom: 'ea'
+    };
+  }) || [];
 
   const totalCaseWeight = calculateTotalCaseWeight();
   
@@ -137,14 +191,12 @@ const PackoutDetails = () => {
                 <div className={styles.materialHeader}>
                   <span className={styles.materialSku}>SKU</span>
                   <span className={styles.materialDescriptionCompact}>Description</span>
-                  <span className={styles.materialQtyCompact}>Quantity</span>
                 </div>
                 {caseMaterials.length > 0 ? (
                   caseMaterials.map((material, index) => (
                     <div key={index} className={styles.materialItemCompact}>
                       <span className={styles.materialSku}>{material.sku}</span>
                       <span className={styles.materialDescriptionCompact}>{material.description}</span>
-                      <span className={styles.materialQtyCompact}>{material.qty} {material.uom}</span>
                     </div>
                   ))
                 ) : (
@@ -186,13 +238,47 @@ const PackoutDetails = () => {
                 </div>
                 <div className={styles.fullWidthRow}>
                   <label>Configuration Instructions:</label>
-                  <textarea
-                    placeholder="Enter pallet configuration instructions..."
-                    value={palletConfig}
-                    onChange={(e) => setPalletConfig(e.target.value)}
-                    className={styles.configTextarea}
-                    rows={3}
-                  />
+                  <div className={styles.stepByStepContainer}>
+                    {palletConfigSteps.map((step, index) => (
+                      <div key={step.id} className={styles.stepRow}>
+                        <div className={styles.stepNumber}>{index + 1}</div>
+                        <input
+                          type="text"
+                          placeholder={`Step ${index + 1}...`}
+                          value={step.text}
+                          onChange={(e) => {
+                            const updatedSteps = [...palletConfigSteps];
+                            updatedSteps[index].text = e.target.value;
+                            setPalletConfigSteps(updatedSteps);
+                          }}
+                          className={styles.stepInput}
+                        />
+                        <div className={styles.stepActions}>
+                          {palletConfigSteps.length > 1 && (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setPalletConfigSteps(palletConfigSteps.filter((_, i) => i !== index));
+                              }}
+                              className={styles.removeStepButton}
+                              title="Remove step"
+                            >
+                              ✕
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setPalletConfigSteps([...palletConfigSteps, { id: Date.now(), text: '' }]);
+                      }}
+                      className={styles.addStepButton}
+                    >
+                      + Add Step
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

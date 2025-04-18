@@ -10,7 +10,10 @@ const BillOfMaterials = () => {
     unitsPerCase, 
     setIngredientRows: setContextIngredientRows,
     setInclusionRows: setContextInclusionRows,
-    setPackagingRows: setContextPackagingRows
+    setPackagingRows: setContextPackagingRows,
+    setCaseRows: setContextCaseRows,
+    unitClaimWeight,
+    uom
   } = useContext(ProductContext);
 
   const [isOpen, setIsOpen] = useState(true);
@@ -34,6 +37,10 @@ const BillOfMaterials = () => {
     setContextPackagingRows(packagingRows);
   }, [packagingRows, setContextPackagingRows]);
 
+  useEffect(() => {
+    setContextCaseRows(caseRows);
+  }, [caseRows, setContextCaseRows]);
+
   const addRow = (setRows, defaultValues = {}) => setRows((prev) => [...prev, { id: Date.now(), ...defaultValues }]);
   const removeRow = (id, setRows) => setRows((prev) => prev.filter((row) => row.id !== id));
 
@@ -53,21 +60,84 @@ const BillOfMaterials = () => {
     }));
   };
 
+  // Convert weight to grams based on UOM
+  const convertToGrams = (weight, sourceUom) => {
+    const weightNum = parseFloat(weight) || 0;
+    switch (sourceUom) {
+      case 'g':
+        return weightNum;
+      case 'oz':
+        return weightNum * 28.3495;
+      case 'lbs':
+        return weightNum * 453.592;
+      case 'kg':
+        return weightNum * 1000;
+      default:
+        return weightNum;
+    }
+  };
+
+  // Convert weight from grams to target UOM
+  const convertFromGrams = (grams, targetUom) => {
+    const gramsNum = parseFloat(grams) || 0;
+    switch (targetUom) {
+      case 'g':
+        return gramsNum;
+      case 'oz':
+        return gramsNum / 28.3495;
+      case 'lbs':
+        return gramsNum / 453.592;
+      case 'kg':
+        return gramsNum / 1000;
+      default:
+        return gramsNum;
+    }
+  };
+
+  // Get unit claim weight in the current UOM
+  const getUnitWeightInCurrentUom = () => {
+    // Convert unit claim weight to grams first, then to the current UOM
+    const weightInGrams = convertToGrams(unitClaimWeight, uom);
+    return convertFromGrams(weightInGrams, 'lbs'); // Ingredients table always shows weight in lbs
+  };
+
   const handleIngredientChange = (id, field, value) => {
-    setIngredientRows((prev) =>
-      prev.map((row) => {
+    setIngredientRows((prev) => {
+      const updatedRows = prev.map((row) => {
         if (row.id === id) {
           const updated = { ...row, [field]: value };
           if (field === 'percent') {
             const percent = parseFloat(value) || 0;
-            const weight = (parseFloat(wipWeight || 0) * percent) / 100;
+            // Calculate weight based on percentage of unit claim weight
+            const unitWeightInLbs = getUnitWeightInCurrentUom();
+            const weight = (unitWeightInLbs * percent) / 100;
             updated.weight = weight.toFixed(2);
           }
           return updated;
         }
         return row;
-      })
-    );
+      });
+
+      // Recalculate weights if percentages change to ensure they sum to unit claim weight
+      if (field === 'percent') {
+        const totalPercent = updatedRows.reduce((sum, row) => sum + (parseFloat(row.percent) || 0), 0);
+        
+        // If total percent is not 0, adjust weights to match unit claim weight
+        if (totalPercent > 0) {
+          const unitWeightInLbs = getUnitWeightInCurrentUom();
+          
+          updatedRows.forEach(row => {
+            const percent = parseFloat(row.percent) || 0;
+            if (percent > 0) {
+              const weight = (unitWeightInLbs * percent) / 100;
+              row.weight = weight.toFixed(2);
+            }
+          });
+        }
+      }
+      
+      return updatedRows;
+    });
   };
 
   const addSubstitute = (id) => {
@@ -128,7 +198,7 @@ const BillOfMaterials = () => {
         <h4 className={styles.subHeader}>Ingredients</h4>
         <table className={`${styles.table} ${styles.ingredientsTable}`}>
           <thead>
-            <tr><th>SKU</th><th>Description</th><th>%</th><th>Weight (lbs)</th><th>UOM</th><th>Allergens</th><th></th></tr>
+            <tr><th>SKU</th><th>Description</th><th>%</th><th>Weight (lbs)</th><th>Allergens</th><th></th></tr>
           </thead>
           <tbody>
             {ingredientRows.map((row) => (
@@ -146,7 +216,6 @@ const BillOfMaterials = () => {
                   <td><input type="text" value={row.description} onChange={(e) => handleIngredientChange(row.id, 'description', e.target.value)} /></td>
                   <td><input type="number" value={row.percent} onChange={(e) => handleIngredientChange(row.id, 'percent', e.target.value)} /></td>
                   <td><input type="text" value={row.weight} readOnly /></td>
-                  <td><input type="text" value="lbs" readOnly /></td>
                   <td>
                     <select
                       value={row.allergen}
@@ -169,7 +238,7 @@ const BillOfMaterials = () => {
                       <input type="text" placeholder="Sub SKU" value={sub.sku} onChange={(e) => handleSubstituteChange(row.id, sub.id, 'sku', e.target.value)} />
                       <input type="text" placeholder="Sub Description" value={sub.description} onChange={(e) => handleSubstituteChange(row.id, sub.id, 'description', e.target.value)} />
                     </td>
-                    <td colSpan="5" className={styles.subNote}>Substitute for above</td>
+                    <td colSpan="4" className={styles.subNote}>Substitute for above</td>
                   </tr>
                 ))}
               </React.Fragment>
@@ -180,7 +249,14 @@ const BillOfMaterials = () => {
               <td colSpan="2"><strong>Totals:</strong></td>
               <td><strong>{totalPercent.toFixed(2)}%</strong></td>
               <td><strong>{totalWeight.toFixed(2)}</strong></td>
-              <td colSpan="3">{totalPercent !== 100 && <span className={styles.warning}>⚠ Delta: {percentDelta.toFixed(2)}%</span>}</td>
+              <td colSpan="2">
+                {totalPercent !== 100 && (
+                  <span className={styles.warning}>⚠ Delta: {percentDelta.toFixed(2)}%</span>
+                )}
+                {totalPercent === 100 && Math.abs(totalWeight - getUnitWeightInCurrentUom()) > 0.01 && (
+                  <span className={styles.warning}>⚠ Weight doesn't match unit claim weight</span>
+                )}
+              </td>
             </tr>
           </tfoot>
         </table>
@@ -199,22 +275,27 @@ const BillOfMaterials = () => {
               <tr key={row.id}>
                 <td>
                   <input
+                    title={row.sku}
                     type="text"
                     value={row.sku}
                     onChange={(e) => handleChange(setInclusionRows, row.id, 'sku', e.target.value)}
-                    style={duplicateInclusionSKUs.includes(row.sku) ? { borderColor: 'red' } : {}}
-                    title={duplicateInclusionSKUs.includes(row.sku) ? 'Duplicate SKU' : ''}
                   />
                 </td>
                 <td><input type="text" value={row.description} onChange={(e) => handleChange(setInclusionRows, row.id, 'description', e.target.value)} /></td>
                 <td><input type="number" value={row.qty} onChange={(e) => handleChange(setInclusionRows, row.id, 'qty', e.target.value)} /></td>
                 <td><input type="number" value={row.weight} onChange={(e) => handleChange(setInclusionRows, row.id, 'weight', e.target.value)} /></td>
                 <td>
-                  <select
-                    value={row.allergen}
+                  <select 
+                    title={row.allergen === 'Yes' ? 'Contains allergens' : 'No allergens'} 
+                    style={{
+                      backgroundColor: row.allergen === 'Yes' ? '#ffebeb' : '#e3ffe3',
+                      color: row.allergen === 'Yes' ? '#d00' : '#006600',
+                      borderRadius: '6px',
+                      padding: '0.2rem',
+                      fontWeight: 'bold'
+                    }}
+                    value={row.allergen} 
                     onChange={(e) => handleChange(setInclusionRows, row.id, 'allergen', e.target.value)}
-                    title={row.allergen === 'Yes' ? 'Contains allergens' : 'No allergens'}
-                    style={{ backgroundColor: row.allergen === 'Yes' ? '#ffe3e3' : '#e3ffe3', color: row.allergen === 'Yes' ? '#d00' : '#060', borderRadius: '6px', padding: '0.2rem', fontWeight: 'bold' }}
                   >
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
@@ -224,8 +305,21 @@ const BillOfMaterials = () => {
               </tr>
             ))}
           </tbody>
+          <tfoot>
+            <tr>
+              <td colSpan="3"><strong>Total Weight:</strong></td>
+              <td>
+                <strong>
+                  {inclusionRows.reduce((sum, row) => sum + (parseFloat(row.weight) || 0), 0).toFixed(2)}
+                </strong>
+              </td>
+              <td colSpan="2"></td>
+            </tr>
+          </tfoot>
         </table>
-        <button className={styles.addButton} onClick={() => addRow(setInclusionRows, { allergen: 'No' })}>+ Add Inclusion</button>
+        <div className={styles.addButtonWrapper}>
+          <button className={styles.addButton} onClick={() => addRow(setInclusionRows)}>+ Add Inclusion</button>
+        </div>
       </div>
 
             {/* Packaging Table */}
@@ -253,6 +347,17 @@ const BillOfMaterials = () => {
               </tr>
             ))}
           </tbody>
+          <tfoot>
+            <tr>
+              <td colSpan="3"><strong>Total Weight:</strong></td>
+              <td>
+                <strong>
+                  {packagingRows.reduce((sum, row) => sum + (parseFloat(row.weight) || 0), 0).toFixed(2)}
+                </strong>
+              </td>
+              <td colSpan="2"></td>
+            </tr>
+          </tfoot>
         </table>
         <div className={styles.addButtonWrapper}>
           <button className={styles.addButton} onClick={() => addRow(setPackagingRows)}>+ Add Packaging</button>
@@ -272,7 +377,18 @@ const BillOfMaterials = () => {
               <tr key={row.id}>
                 <td><input type="text" value={row.sku} onChange={(e) => handleChange(setCaseRows, row.id, 'sku', e.target.value)} /></td>
                 <td>
-                <select value={row.description} onChange={(e) => handleChange(setCaseRows, row.id, 'description', e.target.value, 'case')}>
+                <select 
+                  value={row.description} 
+                  onChange={(e) => handleChange(setCaseRows, row.id, 'description', e.target.value, 'case')}
+                  style={{
+                    backgroundColor: '#f0f7ff',
+                    color: '#4a90e2',
+                    borderRadius: '6px',
+                    padding: '0.2rem',
+                    fontWeight: 'bold',
+                    width: '100%'
+                  }}
+                >
                     <option value="Box">Box</option>
                     <option value="Tray">Tray</option>
                     <option value="Divider">Divider</option>
@@ -291,6 +407,17 @@ const BillOfMaterials = () => {
               </tr>
             ))}
           </tbody>
+          <tfoot>
+            <tr>
+              <td colSpan="3"><strong>Total Weight:</strong></td>
+              <td>
+                <strong>
+                  {caseRows.reduce((sum, row) => sum + (parseFloat(row.weight) || 0), 0).toFixed(2)}
+                </strong>
+              </td>
+              <td colSpan="2"></td>
+            </tr>
+          </tfoot>
         </table>
         <div className={styles.addButtonWrapper}>
           <button className={styles.addButton} onClick={() => addRow(setCaseRows)}>+ Add Case</button>

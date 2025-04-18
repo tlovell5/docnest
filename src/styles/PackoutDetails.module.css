@@ -122,6 +122,95 @@
   font-family: inherit;
 }
 
+/* Step by Step Configuration */
+.stepByStepContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.stepRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.stepNumber {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: #4a90e2;
+  color: white;
+  font-weight: 600;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.stepInput {
+  flex: 1;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease;
+}
+
+.stepInput:focus {
+  border-color: #4a90e2;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.1);
+}
+
+.stepActions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.removeStepButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  color: #d00;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.removeStepButton:hover {
+  background-color: #ffebeb;
+}
+
+.addStepButton {
+  padding: 0.6rem 1rem;
+  border: 1px dashed #ccc;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  color: #4a90e2;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  align-self: flex-start;
+  margin-top: 0.5rem;
+}
+
+.addStepButton:hover {
+  background-color: #f0f7ff;
+  border-color: #4a90e2;
+}
+
 /* Materials Table Styles */
 .materialsTable {
   border: 1px solid #eee;
@@ -132,7 +221,7 @@
 
 .materialHeader {
   display: grid;
-  grid-template-columns: 25% 55% 20%;
+  grid-template-columns: 30% 70%;
   background-color: #f5f5f5;
   padding: 0.75rem;
   font-weight: 600;
@@ -142,7 +231,7 @@
 
 .materialItemCompact {
   display: grid;
-  grid-template-columns: 25% 55% 20%;
+  grid-template-columns: 30% 70%;
   padding: 0.75rem;
   border-bottom: 1px solid #eee;
 }
