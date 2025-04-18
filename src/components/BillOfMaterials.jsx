@@ -1,10 +1,17 @@
 // src/components/BillOfMaterials.jsx
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import styles from '../styles/BillOfMaterials.module.css';
 import { ProductContext } from '../context/ProductContext';
 
 const BillOfMaterials = () => {
-  const { wipId, wipWeight, unitsPerCase } = useContext(ProductContext);
+  const { 
+    wipId, 
+    wipWeight, 
+    unitsPerCase, 
+    setIngredientRows: setContextIngredientRows,
+    setInclusionRows: setContextInclusionRows,
+    setPackagingRows: setContextPackagingRows
+  } = useContext(ProductContext);
 
   const [isOpen, setIsOpen] = useState(true);
   
@@ -14,6 +21,18 @@ const BillOfMaterials = () => {
   const [inclusionRows, setInclusionRows] = useState([{ id: Date.now(), sku: '', description: '', qty: '', weight: '', allergen: 'No' }]);
   const [packagingRows, setPackagingRows] = useState([{ id: Date.now(), sku: '', description: '', length: '', width: '', height: '', qty: '', weight: '' }]);
   const [caseRows, setCaseRows] = useState([{ id: Date.now(), sku: '', description: 'Box', length: '', width: '', height: '', qty: '', weight: '' }]);
+
+  useEffect(() => {
+    setContextIngredientRows(ingredientRows);
+  }, [ingredientRows, setContextIngredientRows]);
+
+  useEffect(() => {
+    setContextInclusionRows(inclusionRows);
+  }, [inclusionRows, setContextInclusionRows]);
+
+  useEffect(() => {
+    setContextPackagingRows(packagingRows);
+  }, [packagingRows, setContextPackagingRows]);
 
   const addRow = (setRows, defaultValues = {}) => setRows((prev) => [...prev, { id: Date.now(), ...defaultValues }]);
   const removeRow = (id, setRows) => setRows((prev) => prev.filter((row) => row.id !== id));

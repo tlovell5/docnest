@@ -1,16 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import styles from '../styles/CustomerInfo.module.css';
+import { useDropzone } from 'react-dropzone';
 
 const CustomerInfo = () => {
   const [isOpen, setIsOpen] = useState(true);
   const [logoPreview, setLogoPreview] = useState(null);
 
-  const handleLogoUpload = (e) => {
-    const file = e.target.files[0];
+  const onDrop = useCallback((acceptedFiles) => {
+    const file = acceptedFiles[0];
     if (file) {
       setLogoPreview(URL.createObjectURL(file));
     }
-  };
+  }, []);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: { 'image/*': [] },
+    multiple: false
+  });
 
   return (
     <section className={styles.container}>
@@ -53,14 +60,32 @@ const CustomerInfo = () => {
 
           <div className={styles.field}>
             <label>Company Logo</label>
-            <input type="file" accept="image/*" onChange={handleLogoUpload} />
-            {logoPreview && (
-              <img
-                src={logoPreview}
-                alt="Company Logo Preview"
-                className={styles.logoPreview}
-              />
-            )}
+            <div {...getRootProps({ className: styles.dropzone })}>
+              <input {...getInputProps()} />
+              {logoPreview ? (
+                <div className={styles.logoPreviewContainer}>
+                  <img
+                    src={logoPreview}
+                    alt="Company Logo Preview"
+                    className={styles.logoPreview}
+                  />
+                  <button 
+                    type="button" 
+                    className={styles.removeButton}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setLogoPreview(null);
+                    }}
+                  >
+                    ✕
+                  </button>
+                </div>
+              ) : isDragActive ? (
+                <p>Drop the logo here ...</p>
+              ) : (
+                <p>Drag & drop a logo here, or click to select a file</p>
+              )}
+            </div>
           </div>
         </div>
       )}

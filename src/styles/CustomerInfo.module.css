@@ -51,27 +51,84 @@
 }
 
 .field input,
-.field textarea {
-  padding: 0.55rem 0.75rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 1rem;
-  background-color: #fafafa;
-  transition: border 0.2s ease;
+.field textarea,
+.field select {
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  background-color: #fff;
+  transition: border-color 0.2s ease;
 }
 
 .field input:focus,
-.field textarea:focus {
-  border-color: #999;
+.field textarea:focus,
+.field select:focus {
+  border-color: #4a90e2;
   outline: none;
-  background-color: #fff;
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.1);
+}
+
+.dropzone {
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s ease;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.dropzone:hover {
+  border-color: #4a90e2;
+}
+
+.dropzone p {
+  color: #777;
+  margin: 0;
+}
+
+.logoPreviewContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
 }
 
 .logoPreview {
-  margin-top: 0.75rem;
-  width: 150px;
-  height: auto;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+  max-width: 90%;
+  max-height: 90%;
   object-fit: contain;
+}
+
+.removeButton {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #d00;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.removeButton:hover {
+  background-color: #fff;
+  color: #f00;
 }
