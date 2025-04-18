@@ -1,0 +1,160 @@
+/* src/styles/BillOfMaterials.module.css */
+
+.container {
+  background: #fff;
+  border: 1px solid #e3e3e3;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-top: 2rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+.toggleHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.header {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.arrow {
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.arrow.open {
+  transform: rotate(90deg);
+}
+
+
+.subHeader {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 1.5rem 0 0.75rem;
+  color: #333;
+}
+
+.tableContainer {
+  margin-bottom: 2rem;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.table th,
+.table td {
+  border: 1px solid #e0e0e0;
+  padding: 0.85rem;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.table th {
+  background-color: #f4f6f8;
+  font-weight: 600;
+  color: #222;
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: #f9fbfc;
+}
+
+.table input,
+.table select {
+  width: 100%;
+  padding: 0.45rem;
+  font-size: 0.88rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Ingredient & Inclusions Table Custom Widths */
+.ingredientsTable th:nth-child(1),
+.ingredientsTable td:nth-child(1),
+.inclusionsTable th:nth-child(1),
+.inclusionsTable td:nth-child(1) {
+  min-width: 160px;
+  max-width: 180px;
+}
+
+.ingredientsTable th:nth-child(2),
+.ingredientsTable td:nth-child(2),
+.inclusionsTable th:nth-child(2),
+.inclusionsTable td:nth-child(2) {
+  min-width: 240px;
+}
+
+.inclusionsTable th:nth-child(4),
+.inclusionsTable td:nth-child(4) {
+  max-width: 80px;
+}
+
+.packagingTable th:nth-child(2),
+.packagingTable td:nth-child(2),
+.caseTable th:nth-child(2),
+.caseTable td:nth-child(2) {
+  min-width: 160px;
+}
+
+/* Buttons */
+.addButton {
+  background-color: #4a90e2;
+  color: white;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin-top: 0.75rem;
+  margin-left: 0.5rem;
+}
+
+.addButton:hover {
+  background-color: #3b7bcc;
+}
+
+.removeButton {
+  background-color: transparent;
+  border: none;
+  color: #c00;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.warning {
+  color: #d9534f;
+  font-weight: 500;
+  margin-top: 1rem;
+}
+
+/* Substitute Row Styling */
+.substituteRow td {
+  background-color: #fdf6e3;
+  font-style: italic;
+}
+
+.subNote {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.dimensionInputs {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.dimensionInputs input {
+  width: 60px;
+}

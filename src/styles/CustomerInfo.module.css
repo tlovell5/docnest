@@ -1,0 +1,77 @@
+.container {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.toggleHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+.header {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.arrow {
+  font-size: 1.25rem;
+  color: #666;
+  transition: transform 0.3s ease;
+}
+
+.open {
+  transform: rotate(90deg);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+.field label {
+  font-weight: 500;
+  margin-bottom: 0.4rem;
+  color: #444;
+}
+
+.field input,
+.field textarea {
+  padding: 0.55rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: #fafafa;
+  transition: border 0.2s ease;
+}
+
+.field input:focus,
+.field textarea:focus {
+  border-color: #999;
+  outline: none;
+  background-color: #fff;
+}
+
+.logoPreview {
+  margin-top: 0.75rem;
+  width: 150px;
+  height: auto;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  object-fit: contain;
+}
