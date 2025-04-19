@@ -7,6 +7,9 @@ import ProductionDetails from "../components/ProductionDetails";
 import PackoutDetails from "../components/PackoutDetails";
 import MixInstructions from "../components/MixInstructions";
 import ProductTesting from '../components/ProductTesting';
+import EquipmentSetup from '../components/EquipmentSetup';
+import Signatures from '../components/Signatures';
+import ActivityLog from '../components/ActivityLog';
 import styles from '../styles/SpecSheetPage.module.css';
 
 const SpecSheetPage = () => {
@@ -19,9 +22,13 @@ const SpecSheetPage = () => {
         <BillOfMaterials />
         <PackoutDetails />
         <MixInstructions />
+        <PackagingClaims />
         <ProductTesting />
+        <EquipmentSetup />
+        <Signatures />
+        <ActivityLog />
       </div>
-      <PackagingClaims />
+      
     </main>
   );
 };

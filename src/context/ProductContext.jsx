@@ -10,6 +10,9 @@ export const ProductProvider = ({ children }) => {
   const [packoutDetails, setPackoutDetails] = useState(null);
   const [mixSteps, setMixSteps] = useState(null);
   const [productTesting, setProductTesting] = useState(null);
+  const [equipmentSetup, setEquipmentSetup] = useState(null);
+  const [signatures, setSignatures] = useState(null);
+  const [activityLog, setActivityLog] = useState(null);
   
   // Original state variables (needed for backward compatibility)
   const [wipId, setWipId] = useState('');
@@ -44,6 +47,12 @@ export const ProductProvider = ({ children }) => {
       setMixSteps,
       productTesting,
       setProductTesting,
+      equipmentSetup,
+      setEquipmentSetup,
+      signatures,
+      setSignatures,
+      activityLog,
+      setActivityLog,
       
       // Original state variables
       wipId, 
