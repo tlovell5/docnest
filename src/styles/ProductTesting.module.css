@@ -1,0 +1,249 @@
+.container {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+}
+
+.toggleHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background-color: white;
+}
+
+.header {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.arrow {
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.arrow.open {
+  transform: rotate(90deg);
+}
+
+.content {
+  padding: 0 1.5rem 1.5rem;
+}
+
+.tableContainer {
+  margin-bottom: 2rem;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.tableTitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+  color: #333;
+}
+
+.tableHeaderWithSelect {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.tableNameSelect {
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 0.5rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  background-color: white;
+  color: #333;
+  cursor: pointer;
+  min-width: 250px;
+}
+
+.tableNameSelect:focus {
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+.removeTableButton {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.2rem;
+  background-color: #f0f0f0;
+  color: #d00;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.removeTableButton:hover {
+  background-color: #ffebeb;
+  transform: translateY(-2px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.testingTable {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.95rem;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.testingTable th {
+  text-align: left;
+  padding: 0.75rem;
+  background-color: #f5f5f5;
+  font-weight: 600;
+  color: #444;
+  border-bottom: 1px solid #eee;
+}
+
+.testingTable th:first-child {
+  border-top-left-radius: 8px;
+}
+
+.testingTable th:last-child {
+  border-top-right-radius: 8px;
+}
+
+.testingTable td {
+  padding: 1rem 0.75rem;
+  border-bottom: 1px solid #eee;
+  vertical-align: top;
+}
+
+.testingTable tbody tr {
+  background-color: white;
+  transition: background-color 0.2s ease;
+}
+
+.testingTable tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+.testingTable tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.testingTable tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 8px;
+}
+
+.testingTable tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 8px;
+}
+
+.actionsColumn {
+  width: 60px;
+}
+
+.actionsCell {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.selectInput,
+.textInput {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  background-color: #fafafa;
+}
+
+.selectInput:focus,
+.textInput:focus {
+  border-color: #4a90e2;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+  background-color: white;
+}
+
+.removeButton {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  background-color: #f0f0f0;
+  color: #d00;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.removeButton:hover {
+  background-color: #ffebeb;
+  transform: translateY(-2px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.addButtonContainer {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.addButton {
+  background-color: transparent;
+  color: #4a90e2;
+  border: 1px solid #4a90e2;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.addButton:hover {
+  background-color: rgba(74, 144, 226, 0.05);
+  transform: translateY(-2px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.addTableButtonContainer {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.addTableButton {
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.75rem 1.25rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(74, 144, 226, 0.2);
+}
+
+.addTableButton:hover {
+  background-color: #3a7bc8;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(74, 144, 226, 0.3);
+}

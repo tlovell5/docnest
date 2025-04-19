@@ -18,6 +18,11 @@ const MixInstructions = () => {
 
   // Add a new step
   const addStep = () => {
+    if (!mixSteps) {
+      setMixSteps([{ id: Date.now(), step: 1, instructions: '', image: null, duration: '' }]);
+      return;
+    }
+    
     const newStep = {
       id: Date.now(),
       step: mixSteps.length + 1,
@@ -30,6 +35,8 @@ const MixInstructions = () => {
 
   // Remove a step
   const removeStep = (id) => {
+    if (!mixSteps) return;
+    
     const updatedSteps = mixSteps.filter(step => step.id !== id);
     // Renumber the steps
     updatedSteps.forEach((step, index) => {
@@ -40,6 +47,8 @@ const MixInstructions = () => {
 
   // Update step instructions
   const updateInstructions = (id, value) => {
+    if (!mixSteps) return;
+    
     setMixSteps(mixSteps.map(step => 
       step.id === id ? { ...step, instructions: value } : step
     ));
@@ -47,6 +56,8 @@ const MixInstructions = () => {
 
   // Update step duration
   const updateDuration = (id, value) => {
+    if (!mixSteps) return;
+    
     setMixSteps(mixSteps.map(step => 
       step.id === id ? { ...step, duration: value } : step
     ));
@@ -54,6 +65,8 @@ const MixInstructions = () => {
 
   // Handle image upload for a specific step
   const handleImageDrop = useCallback((acceptedFiles, id) => {
+    if (!mixSteps) return;
+    
     if (acceptedFiles && acceptedFiles.length > 0) {
       const file = acceptedFiles[0];
       setMixSteps(mixSteps.map(step => 
@@ -64,6 +77,8 @@ const MixInstructions = () => {
 
   // Remove image from a step
   const removeImage = (id) => {
+    if (!mixSteps) return;
+    
     setMixSteps(mixSteps.map(step => 
       step.id === id ? { ...step, image: null } : step
     ));
@@ -116,6 +131,8 @@ const MixInstructions = () => {
 
   // Duplicate a step
   const duplicateStep = (id) => {
+    if (!mixSteps) return;
+    
     const stepToDuplicate = mixSteps.find(step => step.id === id);
     if (!stepToDuplicate) return;
     
@@ -140,6 +157,8 @@ const MixInstructions = () => {
   // Calculate total mix time
   const calculateTotalTime = () => {
     let totalMinutes = 0;
+    
+    if (!mixSteps) return '0 min';
     
     mixSteps.forEach(step => {
       if (step.duration) {
@@ -188,7 +207,7 @@ const MixInstructions = () => {
                 </tr>
               </thead>
               <tbody>
-                {mixSteps.map((step) => {
+                {mixSteps && mixSteps.map((step) => {
                   // Create a custom dropzone for each step
                   const StepDropzone = () => {
                     const { getRootProps, getInputProps, isDragActive } = useDropzone({

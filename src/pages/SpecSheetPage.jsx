@@ -6,17 +6,22 @@ import BillOfMaterials from "../components/BillOfMaterials";
 import ProductionDetails from "../components/ProductionDetails";
 import PackoutDetails from "../components/PackoutDetails";
 import MixInstructions from "../components/MixInstructions";
+import ProductTesting from '../components/ProductTesting';
+import styles from '../styles/SpecSheetPage.module.css';
 
 const SpecSheetPage = () => {
   return (
-    <main style={{ padding: "2rem" }}>
+    <main className={styles.mainContainer}>
       <CustomerInfo />
-      <ProductIdentification />
+      <div className={styles.content}>
+        <ProductIdentification />
+        <ProductionDetails />
+        <BillOfMaterials />
+        <PackoutDetails />
+        <MixInstructions />
+        <ProductTesting />
+      </div>
       <PackagingClaims />
-      <BillOfMaterials />
-      <ProductionDetails />
-      <PackoutDetails />
-      <MixInstructions />
     </main>
   );
 };

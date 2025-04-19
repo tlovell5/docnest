@@ -3,6 +3,15 @@ import React, { createContext, useState } from 'react';
 export const ProductContext = createContext();
 
 export const ProductProvider = ({ children }) => {
+  // New structured state
+  const [productIdentification, setProductIdentification] = useState(null);
+  const [productionDetails, setProductionDetails] = useState(null);
+  const [billOfMaterials, setBillOfMaterials] = useState(null);
+  const [packoutDetails, setPackoutDetails] = useState(null);
+  const [mixSteps, setMixSteps] = useState(null);
+  const [productTesting, setProductTesting] = useState(null);
+  
+  // Original state variables (needed for backward compatibility)
   const [wipId, setWipId] = useState('');
   const [wipWeight, setWipWeight] = useState('');
   const [wipDescription, setWipDescription] = useState('');
@@ -19,10 +28,24 @@ export const ProductProvider = ({ children }) => {
   const [inclusionRows, setInclusionRows] = useState([]);
   const [packagingRows, setPackagingRows] = useState([]);
   const [caseRows, setCaseRows] = useState([]);
-  const [mixSteps, setMixSteps] = useState([]);
 
   return (
-    <ProductContext.Provider value={{ 
+    <ProductContext.Provider value={{
+      // New structured state
+      productIdentification,
+      setProductIdentification,
+      productionDetails,
+      setProductionDetails,
+      billOfMaterials,
+      setBillOfMaterials,
+      packoutDetails,
+      setPackoutDetails,
+      mixSteps,
+      setMixSteps,
+      productTesting,
+      setProductTesting,
+      
+      // Original state variables
       wipId, 
       setWipId, 
       wipWeight, 
@@ -54,9 +77,7 @@ export const ProductProvider = ({ children }) => {
       packagingRows,
       setPackagingRows,
       caseRows,
-      setCaseRows,
-      mixSteps,
-      setMixSteps
+      setCaseRows
     }}>
       {children}
     </ProductContext.Provider>
